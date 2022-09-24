@@ -1,4 +1,5 @@
-FROM node:15
+FROM node:18
+
 # Chrome
 RUN apt-get update \
     && apt-get install -y wget gnupg \
@@ -17,7 +18,17 @@ RUN npm install
 
 # App
 WORKDIR /app
-ADD . /app
+ADD ./src /app/src
+ADD ./tsconfig.json /app
+ADD ./nest-cli.json /app
+ADD ./tsconfig.build.json /app
 RUN npm run build
-ENTRYPOINT npm run start:prod
-EXPOSE 3000
+
+# Add rest of the files
+ADD . /app
+
+ENTRYPOINT [ \
+  "/usr/local/bin/npm", \
+  "run", \
+  "start:prod" \
+]

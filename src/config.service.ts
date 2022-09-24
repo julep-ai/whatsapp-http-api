@@ -22,7 +22,7 @@ export class WhatsappConfigService {
 
     get port(): string {
         return this.configService.get(
-            'WHATSAPP_API_PORT',
+            'PORT',
             '3000',
         )
     }
