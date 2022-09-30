@@ -11,6 +11,11 @@ export class SessionQuery {
     sessionName: string = WHATSAPP_DEFAULT_SESSION_NAME;
 }
 
+export class CheckNumberStatusQuery extends SessionQuery {
+    @IsString()
+    phone: string
+}
+
 export class MessageTextQuery extends SessionQuery {
     @IsString()
     phone: string
@@ -46,6 +51,12 @@ export class MessageContactVcard extends ChatRequest {
 
 export class MessageText extends ChatRequest {
     text: string;
+}
+
+export class MessageTextButtons extends ChatRequest {
+    text: string;
+    title: string;
+    buttons: any[];
 }
 
 export class MessageReply extends ChatRequest {

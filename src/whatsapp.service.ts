@@ -221,6 +221,9 @@ export class WhatsappSessionManager implements OnApplicationShutdown {
         this.log.setContext('WhatsappSessionManager')
         this.cleanDownloadsFolder(this.config.filesFolder)
         this.sessions = {}
+        if (config.startSession) {
+            this.startSession(config.startSession)
+        }
     }
 
     async startSession(name: string) {
@@ -288,7 +291,7 @@ const SUFFIX_DIRECT_MESSAGE = "@c.us"
  * @param phone
  */
 export function ensureSuffix(phone) {
-    if (phone.endsWith(SUFFIX_DIRECT_MESSAGE)) {
+    if (phone.includes("@")) {
         return phone
     }
     return phone + SUFFIX_DIRECT_MESSAGE

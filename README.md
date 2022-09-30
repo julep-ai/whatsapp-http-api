@@ -7,6 +7,26 @@ go [through currently supported methods in Swagger](https://allburov.github.io/w
 
 The project is an HTTP API wrapper around https://github.com/orkestral/venom
 
+# Tables of Contents
+
+<!-- toc -->
+
+- [Installation](#installation)
+- [First Steps](#first-steps)
+  * [Run WhatsAPP HTTP API](#run-whatsapp-http-api)
+  * [Create a new session and login](#create-a-new-session-and-login)
+  * [Send a text message](#send-a-text-message)
+- [Receive messages](#receive-messages)
+    + [Python echo server](#python-echo-server)
+- [Environment variables](#environment-variables)
+  * [Common](#common)
+  * [Webhooks](#webhooks)
+  * [File storage](#file-storage)
+- [How to](#how-to)
+  * [How to build the newest Docker image locally](#how-to-build-the-newest-docker-image-locally)
+- [Support](#support)
+
+<!-- tocstop -->
 
 # Installation
 
@@ -116,6 +136,7 @@ If you try to send an image the "echo server" will send a path to the downloaded
 - `DEBUG` - show debug and verbose logs, set in any value
 - `WHATSAPP_API_PORT` - listen port for HTTP server (default: `3000`)
 - `WHATSAPP_API_HOSTNAME` - Hostname for HTTP server (default: `localhost`)
+- `WHATSAPP_START_SESSION` - start session with that name right after launching the app
 
 ## Webhooks
 
@@ -136,6 +157,16 @@ All webhooks are disabled by default:
   must be separated by a comma, without spaces: `audio,image/png,image/gif`. In order to choose type use prefix (
   like `audio,image`).
 - `WHATSAPP_FILES_LIFETIME`- to keep free space files will be removed after this time (default: `180`, in seconds)
+
+# How to
+## How to build the newest Docker image locally
+
+If the changes haven't been released yet from `main` branch - you can build your own version from the git repository
+```bash
+git clone https://github.com/allburov/whatsapp-http-api.git
+cd whatsapp-http-api
+docker build . -t allburov/whatsapp-http-api
+```
 
 # Support
 

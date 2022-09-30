@@ -2,6 +2,7 @@ import {Body, Controller, Get, NotImplementedException, Post, Query} from '@nest
 import {ApiOperation, ApiTags} from "@nestjs/swagger";
 import {
     ChatRequest,
+    CheckNumberStatusQuery,
     MessageContactVcard,
     MessageFile,
     MessageImage,
@@ -9,7 +10,8 @@ import {
     MessageLocation,
     MessageReply,
     MessageText,
-    MessageTextQuery
+    MessageTextQuery,
+    MessageTextButtons
 } from "./all.dto";
 import {ensureSuffix, WhatsappSessionManager} from "../whatsapp.service";
 
@@ -17,6 +19,20 @@ import {ensureSuffix, WhatsappSessionManager} from "../whatsapp.service";
 @ApiTags('chatting')
 export class ChattingController {
     constructor(private whatsappSessionManager: WhatsappSessionManager) {
+    }
+
+    @Get('/checkNumberStatus')
+    @ApiOperation({summary: 'Check number status'})
+    async checkNumberStatus(
+        @Query() request: CheckNumberStatusQuery,
+    ) {
+        const whatsapp = this.whatsappSessionManager.getSession(request.sessionName)
+        try {
+            const result = await whatsapp.checkNumberStatus(ensureSuffix(request.phone))
+            return {numberExists: result['numberExists']}
+        } catch (e) {
+            return {numberExists: false}
+        }
     }
 
     @Post('/sendContactVcard')
@@ -39,6 +55,13 @@ export class ChattingController {
     sendText(@Body() message: MessageText) {
         const whatsapp = this.whatsappSessionManager.getSession(message.sessionName)
         return whatsapp.sendText(ensureSuffix(message.chatId), message.text)
+    }
+
+    @Post('/sendTextButtons')
+    @ApiOperation({summary: 'Send a text message with buttons'})
+    sendTextButtons(@Body() message: MessageTextButtons) {
+        const whatsapp = this.whatsappSessionManager.getSession(message.sessionName)
+        return whatsapp.sendButtons(ensureSuffix(message.chatId), message.title, message.buttons, message.text)
     }
 
     @Post('/sendLocation')
