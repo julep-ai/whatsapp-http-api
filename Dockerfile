@@ -27,8 +27,16 @@ RUN npm run build
 # Add rest of the files
 ADD . /app
 
-ENTRYPOINT [ \
-  "/usr/local/bin/npm", \
-  "run", \
-  "start:prod" \
-]
+# Environment variables
+ENV WHATSAPP_HOOK_ONMESSAGE=http://localhost/uri
+ENV WHATSAPP_HOOK_ONSTATECHANGE=http://localhost/uri
+ENV WHATSAPP_HOOK_ONACK=http://localhost/uri
+ENV WHATSAPP_HOOK_ONADDEDTOGROUP=http://localhost/uri
+ENV WHATSAPP_FILES_FOLDER=/tmp/whatsapp-files
+ENV WHATSAPP_FILES_LIFETIME=180
+
+ENV NODE_ENV=production
+ENV PORT=80
+ENV HOST=0.0.0.0
+
+ENTRYPOINT /usr/local/bin/npm run start:prod
