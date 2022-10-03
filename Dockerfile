@@ -39,4 +39,4 @@ ENV NODE_ENV=production
 ENV PORT=80
 ENV HOST=0.0.0.0
 
-ENTRYPOINT /usr/local/bin/npm run start:prod
+CMD npm run start:prod
