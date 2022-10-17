@@ -144,10 +144,17 @@ The description of [webhooks you can in Venom README.md, section Events](https:/
 
 All webhooks are disabled by default:
 
+- `WHATSAPP_HOOK_ONANYMESSAGE=http://localhost/uri`
 - `WHATSAPP_HOOK_ONMESSAGE=http://localhost/uri`
 - `WHATSAPP_HOOK_ONSTATECHANGE=http://localhost/uri`
 - `WHATSAPP_HOOK_ONACK=http://localhost/uri`
 - `WHATSAPP_HOOK_ONADDEDTOGROUP=http://localhost/uri`
+
+If you want to look at the payload of the webhooks - use the url for that `https://httpbin.org/post`.
+
+```bash
+docker run -it -v `pwd`/tokens:/app/tokens --network=host -e WHATSAPP_HOOK_ONMESSAGE=https://httpbin.org/post allburov/whatsapp-http-api
+```
 
 ## File storage
 
